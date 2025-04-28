@@ -1,4 +1,4 @@
-# **Gestão Conta- Plataforma de Controle Financeiro Pessoal**
+# **Plataforma Educação Online**
 
 ## **1. Apresentação**
 
