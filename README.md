@@ -73,16 +73,16 @@ A estrutura do projeto é organizada da seguinte forma:
 
 2. **Configuração do Banco de Dados:**
    - No arquivo `appsettings.json`, localizado no projeto **PlataformaEducacaoOnline.API**, configure a string de conexão do SQLite. Esta configuração é compartilhada por todos os projetos incluídos nesta solução.
-   - Utilizando prompt de comando, acesse a pasta raiz do projeto **PlataformaEducacaoOnline.API** e execute o comando **dotnet ef database update -c AutenticacaoDbContext**
-   - Utilizando prompt de comando, acesse a pasta raiz do projeto **PlataformaEducacaoOnline.API** e execute o comando **dotnet ef database update -c ConteudoDbContext**
+   - Utilizando prompt de comando, acesse a pasta raiz **src/PlataformaEducacaoOnline.API** e execute o comando **dotnet ef database update -c AutenticacaoDbContext**
+   - Utilizando prompt de comando, acesse a pasta raiz **src/PlataformaEducacaoOnline.API** e execute o comando **dotnet ef database update -c ConteudoDbContext**
    - O seed configurará um usuário com perfil Admin. 
      - login: admin@admin.com
      - senha: Admin@123
 
 3. **Executar a API:**
    - `cd src/PlataformaEducacaoOnline.API/`
-   - `dotnet run`
-   - Acesse a documentação da API em: http://localhost:5050/swagger
+   - `dotnet run urls=https://localhost:5000`
+   - Acesse a documentação da API em: https://localhost:5000/swagger
 
 ## **7. Instruções de Configuração**
 
@@ -93,7 +93,7 @@ A estrutura do projeto é organizada da seguinte forma:
 
 A documentação da API está disponível através do Swagger. Após iniciar a API, acesse a documentação em:
 
-http://localhost:5050/swagger
+https://localhost:5000/swagger
 
 ## **9. Avaliação**
 
