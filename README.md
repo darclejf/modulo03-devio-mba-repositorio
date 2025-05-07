@@ -75,6 +75,7 @@ A estrutura do projeto é organizada da seguinte forma:
    - No arquivo `appsettings.json`, localizado no projeto **PlataformaEducacaoOnline.API**, configure a string de conexão do SQLite. Esta configuração é compartilhada por todos os projetos incluídos nesta solução.
    - Utilizando prompt de comando, acesse a pasta raiz **src/PlataformaEducacaoOnline.API** e execute o comando **dotnet ef database update -c AutenticacaoDbContext**
    - Utilizando prompt de comando, acesse a pasta raiz **src/PlataformaEducacaoOnline.API** e execute o comando **dotnet ef database update -c ConteudoDbContext**
+   - Utilizando prompt de comando, acesse a pasta raiz **src/PlataformaEducacaoOnline.API** e execute o comando **dotnet ef database update -c AlunoDbContext**
    - O seed configurará um usuário com perfil Admin. 
      - login: admin@admin.com
      - senha: Admin@123

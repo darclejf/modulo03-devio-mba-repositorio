@@ -16,6 +16,7 @@ builder
     .AddAutenticacaoSettings()
     .AddApiSettings()
     .AddConteudoSettings()
+    .AddAlunoSettings()
     .AddSwaggerSettings();
 
 var app = builder.Build();

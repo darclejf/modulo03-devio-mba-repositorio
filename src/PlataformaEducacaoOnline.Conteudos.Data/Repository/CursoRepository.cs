@@ -16,9 +16,14 @@ namespace PlataformaEducacaoOnline.Conteudos.Data.Repository
 
         public IUnitOfWork UnitOfWork => _context;
 
-        public async Task AdicionarAsync(Curso curso)
+        public async Task InserirAsync(Curso curso)
         {
             await _context.Cursos.AddAsync(curso);
+        }
+
+        public void Atualizar(Curso curso)
+        {
+            _context.Cursos.Update(curso);            
         }
 
         public void Dispose()
@@ -26,14 +31,18 @@ namespace PlataformaEducacaoOnline.Conteudos.Data.Repository
             _context.Dispose();
         }
 
-        public Task<Curso> ObterPorIdAsync(Guid id)
+        public async Task<Curso?> ObterPorIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Cursos
+                                    .Include(x => x.Aulas)
+                                    .SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<Curso>> ObterTodosAsync()
         {
-            return await _context.Cursos.ToListAsync();
+            return await _context.Cursos
+                                    .Include(x => x.Aulas)
+                                    .AsNoTracking().ToListAsync();
         }
     }
 }

@@ -3,11 +3,11 @@ using PlataformaEducacaoOnline.Conteudos.Domain.Repositories;
 
 namespace PlataformaEducacaoOnline.Conteudos.Application.Queries
 {
-    public class CursoQueries : ICursoQueries
+    public class CursoQuery : ICursoQuery
     {
         private readonly ICursoRepository _cursoRepository;
 
-        public CursoQueries(ICursoRepository cursoRepository)
+        public CursoQuery(ICursoRepository cursoRepository)
         {
             _cursoRepository = cursoRepository;
         }

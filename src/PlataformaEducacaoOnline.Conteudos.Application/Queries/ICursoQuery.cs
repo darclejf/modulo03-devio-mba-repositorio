@@ -2,7 +2,7 @@
 
 namespace PlataformaEducacaoOnline.Conteudos.Application.Queries
 {
-    public interface ICursoQueries
+    public interface ICursoQuery
     {
         Task<IEnumerable<CursoModel>> ObterTodos();
     }

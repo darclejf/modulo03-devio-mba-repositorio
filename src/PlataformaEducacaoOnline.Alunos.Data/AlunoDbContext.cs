@@ -1,19 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PlataformaEducacaoOnline.Conteudos.Domain.Entities;
+using PlataformaEducacaoOnline.Alunos.Domain.Entities;
 using PlataformaEducacaoOnline.Core.Communications.Mediator;
 using PlataformaEducacaoOnline.Core.Data;
 using PlataformaEducacaoOnline.Core.Messages;
 
-namespace PlataformaEducacaoOnline.Conteudos.Data
+namespace PlataformaEducacaoOnline.Alunos.Data
 {
-    public class ConteudoDbContext : DbContext, IUnitOfWork
+    public class AlunoDbContext : DbContext, IUnitOfWork
     {
         private readonly IMediatorHandler _mediatorHandler;
 
-        public DbSet<Curso> Cursos { get; set; }
-        public DbSet<Aula> Aulas { get; set; }
-
-        public ConteudoDbContext(DbContextOptions<ConteudoDbContext> options, IMediatorHandler mediatorHandler) : base(options)
+        public DbSet<Aluno> Alunos { get; set; }
+        public AlunoDbContext(DbContextOptions<AlunoDbContext> options, IMediatorHandler mediatorHandler) : base(options)
         {
             _mediatorHandler = mediatorHandler;
         }
@@ -21,7 +19,7 @@ namespace PlataformaEducacaoOnline.Conteudos.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<Event>();
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ConteudoDbContext).Assembly);            
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AlunoDbContext).Assembly);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -35,7 +33,7 @@ namespace PlataformaEducacaoOnline.Conteudos.Data
         public async Task<bool> CommitAsync()
         {
             var sucesso = await base.SaveChangesAsync() > 0;
-            if (sucesso) 
+            if (sucesso)
                 await _mediatorHandler.PublicarEventos(this);
 
             return sucesso;

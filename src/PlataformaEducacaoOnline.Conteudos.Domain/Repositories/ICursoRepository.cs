@@ -5,8 +5,9 @@ namespace PlataformaEducacaoOnline.Conteudos.Domain.Repositories
 {
     public interface ICursoRepository : IRepository<Curso>
     {
-        Task<Curso> ObterPorIdAsync(Guid id);
-        Task AdicionarAsync(Curso curso);
+        Task<Curso?> ObterPorIdAsync(Guid id);
+        Task InserirAsync(Curso curso);
+        void Atualizar(Curso curso);
         Task<IEnumerable<Curso>> ObterTodosAsync();
     }
 }

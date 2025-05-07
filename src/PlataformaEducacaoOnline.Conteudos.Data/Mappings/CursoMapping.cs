@@ -12,6 +12,8 @@ namespace PlataformaEducacaoOnline.Conteudos.Data.Mappings
 
             builder.HasKey(c => c.Id);
 
+            builder.Property(c => c.Id).ValueGeneratedNever();
+
             builder.Property(p => p.Nome)
                     .HasColumnType("varchar(150)")
                     .IsRequired(true); ;

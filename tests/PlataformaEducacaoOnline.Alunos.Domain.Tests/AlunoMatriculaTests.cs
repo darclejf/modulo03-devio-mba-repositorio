@@ -19,8 +19,7 @@ namespace PlataformaEducacaoOnline.Alunos.Domain.Tests
                 "Nome",
                 "Sobrenome",
                 DateTime.Now.AddYears(-30),
-                "teste@teste.com",
-                Guid.NewGuid());
+                "teste@teste.com");
 
             var cursoId = Guid.NewGuid();
             

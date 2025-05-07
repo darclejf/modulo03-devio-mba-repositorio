@@ -16,7 +16,7 @@ namespace PlataformaEducacaoOnline.API.Settings
                     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddScoped<ICursoRepository, CursoRepository>();
-            builder.Services.AddScoped<ICursoQueries, CursoQueries>();
+            builder.Services.AddScoped<ICursoQuery, CursoQuery>();
 
             builder.Services.AddScoped<IRequestHandler<AdicionarCursoCommand, bool>, CursoCommandHandler>();
             builder.Services.AddScoped<IRequestHandler<AdicionarAulaCursoCommand, bool>, CursoCommandHandler>();

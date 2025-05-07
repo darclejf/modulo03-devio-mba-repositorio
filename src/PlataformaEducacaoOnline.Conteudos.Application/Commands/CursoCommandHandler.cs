@@ -35,7 +35,7 @@ namespace PlataformaEducacaoOnline.Conteudos.Application.Commands
 
             if (curso.Valido())
             {
-                await _cursoRepository.AdicionarAsync(curso);
+                await _cursoRepository.InserirAsync(curso);
                 curso.AdicionarEvento(new AdicionarCursoEvent(curso.Id));
                 await _cursoRepository.UnitOfWork.CommitAsync();
                 return true;
@@ -48,9 +48,33 @@ namespace PlataformaEducacaoOnline.Conteudos.Application.Commands
             return false;            
         }
 
-        public Task<bool> Handle(AdicionarAulaCursoCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdicionarAulaCursoCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            if (!ValidarComando(request))
+                return false;
+
+            var curso = await _cursoRepository.ObterPorIdAsync(request.CursoId);
+
+            if (curso == null)
+            {
+                await _mediatorHandler.PublicarNotificacao(new DomainNotification("curso", "Curso não encontrado!"));
+                return false;
+            }
+
+            var aula = curso.AdicionarAula(request.Nome, request.Titulo, request.Descricao, request.Tipo, request.Url);
+
+            if (aula.Valido())
+            {
+                await _cursoRepository.UnitOfWork.CommitAsync();
+                return true;
+            }
+
+            foreach (var error in aula.ValidationResult.Errors)
+            {
+                await _mediatorHandler.PublicarNotificacao(new DomainNotification("aula", error.ErrorMessage));
+            }
+            return false;
+
         }
 
         private bool ValidarComando(Command message)

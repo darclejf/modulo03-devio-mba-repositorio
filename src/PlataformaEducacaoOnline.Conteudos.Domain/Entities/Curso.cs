@@ -36,11 +36,8 @@ namespace PlataformaEducacaoOnline.Conteudos.Domain.Entities
                 ordem = Aulas.Max(a => a.Ordem);
             
             var aula = new Aula(Guid.NewGuid(), titulo, ++ordem, new ConteudoProgramatico(tituloConteudo, descricaoConteudo, tipoConteudo, urlConteudo), Id);
-            Aulas.Add(aula);
-            //if (aula.Valido())
-            //    Aulas.Add(aula);
-            //else
-            //    throw new DomainException("Aula inválida");
+            if (aula.Valido())
+                Aulas.Add(aula);
             return aula;
         }
 

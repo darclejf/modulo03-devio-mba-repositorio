@@ -2,6 +2,8 @@
 using Microsoft.IdentityModel.Tokens;
 using PlataformaEducacaoOnline.Autenticacao.Interfaces;
 using PlataformaEducacaoOnline.Autenticacao.Models;
+using PlataformaEducacaoOnline.Core.Communications.Mediator;
+using PlataformaEducacaoOnline.Core.Messages.IntegrationEvents;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -13,15 +15,18 @@ namespace PlataformaEducacaoOnline.Autenticacao.Services
         private readonly SignInManager<IdentityUser<Guid>> _signInManager;
         private readonly UserManager<IdentityUser<Guid>> _userManager;
         private readonly JwtSettingsModel _jwtSettings;
+        private readonly IMediatorHandler _mediatorHandler;
 
         public AutenticacaoServices(
             SignInManager<IdentityUser<Guid>> signInManager,
             UserManager<IdentityUser<Guid>> userManager,
-            JwtSettingsModel jwtSettings)
+            JwtSettingsModel jwtSettings,
+            IMediatorHandler mediatorHandler)
         {
             _signInManager = signInManager;
             _userManager = userManager;            
             _jwtSettings = jwtSettings;
+            _mediatorHandler = mediatorHandler;
         }
 
         public async Task<LoginResponseModel> LoginAsync(LoginUserModel model)
@@ -34,9 +39,19 @@ namespace PlataformaEducacaoOnline.Autenticacao.Services
             return null; //TODO lançar notificaoa
         }
 
-        public async Task<string> RegisterAsync(RegisterUserModel model)
+        public async Task<IdentityResult> RegisterAsync(RegisterUserModel model)
         {
-            throw new NotImplementedException();
+            var user = Activator.CreateInstance<IdentityUser<Guid>>();
+            user.UserName = model.Email;
+            user.Email = model.Email;
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, model.Role);
+                //await _signInManager.SignInAsync(user, false);
+                await _mediatorHandler.PublicarEvento(new UsuarioCriadoIntegrationEvent(model.EntityId, user.Id));
+            }
+            return result;
         }
 
         public async Task<bool> RemoveAsync(string id)

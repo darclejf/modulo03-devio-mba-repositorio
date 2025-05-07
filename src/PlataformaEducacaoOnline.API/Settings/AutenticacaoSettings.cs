@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PlataformaEducacaoOnline.Autenticacao.Data;
+using PlataformaEducacaoOnline.Autenticacao.Events;
 using PlataformaEducacaoOnline.Autenticacao.Interfaces;
 using PlataformaEducacaoOnline.Autenticacao.Models;
 using PlataformaEducacaoOnline.Autenticacao.Services;
+using PlataformaEducacaoOnline.Core.Communications.Mediator;
+using PlataformaEducacaoOnline.Core.Messages.IntegrationEvents;
 using System.Text;
 
 namespace PlataformaEducacaoOnline.API.Settings
@@ -65,8 +69,11 @@ namespace PlataformaEducacaoOnline.API.Settings
                                                     new AutenticacaoServices(
                                                         serviceProvider.GetRequiredService<SignInManager<IdentityUser<Guid>>>(),
                                                         serviceProvider.GetRequiredService<UserManager<IdentityUser<Guid>>>(),
-                                                        jwtSettings
+                                                        jwtSettings,
+                                                        serviceProvider.GetRequiredService<IMediatorHandler>()
                                                     ));
+
+            builder.Services.AddScoped<INotificationHandler<AlunoCriadoIntegrationEvent>, AutenticacaoEventHandler>();
             return builder;
         }
     }

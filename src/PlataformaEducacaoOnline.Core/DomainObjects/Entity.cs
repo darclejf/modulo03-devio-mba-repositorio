@@ -10,10 +10,10 @@ namespace PlataformaEducacaoOnline.Core.DomainObjects
         private List<Event> _notificacoes;
         public IReadOnlyCollection<Event> Notificacoes => _notificacoes?.AsReadOnly();
 
-        protected Entity()
-        {
-            Id = Guid.NewGuid();
-        }
+        //protected Entity()
+        //{
+        //    Id = Guid.NewGuid();
+        //}
 
         public virtual bool Valido()
         {

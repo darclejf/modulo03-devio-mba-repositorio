@@ -15,8 +15,7 @@ namespace PlataformaEducacaoOnline.Alunos.Domain.Tests
                 "Nome",
                 "Sobrenome",
                 DateTime.Now.AddYears(-30),
-                "teste@teste.com",
-                Guid.NewGuid());
+                "teste@teste.com");
 
             // Act
             var result = aluno.Valido();
@@ -36,8 +35,7 @@ namespace PlataformaEducacaoOnline.Alunos.Domain.Tests
                 "N",
                 "Sobrenome",
                 DateTime.Now.AddYears(-30),
-                "teste@teste.com",
-                Guid.NewGuid());
+                "teste@teste.com");
 
             // Act
             var result = aluno.Valido();
@@ -58,8 +56,7 @@ namespace PlataformaEducacaoOnline.Alunos.Domain.Tests
                 "Nome",
                 "S",
                 DateTime.Now.AddYears(-30),
-                "teste@teste.com",
-                Guid.NewGuid());
+                "teste@teste.com");
 
             // Act
             var result = aluno.Valido();
@@ -80,8 +77,7 @@ namespace PlataformaEducacaoOnline.Alunos.Domain.Tests
                 "Nome",
                 "Sobrenome",
                 new DateTime(),
-                "teste@teste.com",
-                Guid.NewGuid());
+                "teste@teste.com");
 
             // Act
             var result = aluno.Valido();
@@ -102,8 +98,7 @@ namespace PlataformaEducacaoOnline.Alunos.Domain.Tests
                 "Nome",
                 "Sobrenome",
                 DateTime.Now.AddYears(-30),
-                "teste",
-                Guid.NewGuid());
+                "teste");
 
             // Act
             var result = aluno.Valido();
@@ -125,8 +120,7 @@ namespace PlataformaEducacaoOnline.Alunos.Domain.Tests
                 "Nome",
                 "Sobrenome",
                 DateTime.Now.AddYears(-30),
-                "teste@teste.com",
-                Guid.NewGuid());
+                "teste@teste.com");
 
             // Act
             aluno.Desativar();
@@ -146,8 +140,7 @@ namespace PlataformaEducacaoOnline.Alunos.Domain.Tests
                 "Nome",
                 "Sobrenome",
                 DateTime.Now.AddYears(-30),
-                "teste@teste.com",
-                Guid.NewGuid());
+                "teste@teste.com");
 
             // Act
             aluno.Desativar();

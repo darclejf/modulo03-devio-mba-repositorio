@@ -17,6 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PlataformaEducacaoOnline.Alunos.Application\PlataformaEducacaoOnline.Alunos.Application.csproj" />
+    <ProjectReference Include="..\PlataformaEducacaoOnline.Alunos.Data\PlataformaEducacaoOnline.Alunos.Data.csproj" />
     <ProjectReference Include="..\PlataformaEducacaoOnline.Autenticacao\PlataformaEducacaoOnline.Autenticacao.csproj" />
     <ProjectReference Include="..\PlataformaEducacaoOnline.Conteudos.Application\PlataformaEducacaoOnline.Conteudos.Application.csproj" />
     <ProjectReference Include="..\PlataformaEducacaoOnline.Conteudos.Data\PlataformaEducacaoOnline.Conteudos.Data.csproj" />
