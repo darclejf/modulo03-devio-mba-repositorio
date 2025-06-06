@@ -16,37 +16,48 @@ namespace PlataformaEducacaoOnline.Alunos.Domain.Entities
 
         protected Matricula() { }
 
-        public static Matricula Create(Guid alunoId, Guid cursoId, IList<Guid> aulas)
+        public static Matricula Create(Guid id, Guid alunoId, Guid cursoId)
         {
             return new Matricula
             {
+                Id = id,
                 AlunoId = alunoId,
                 CursoId = cursoId,
                 DataMatricula = DateTime.Now,
                 Percentual = 0,
                 Status = EnumStatusMatricula.PendentePagamento,
-                Historico = aulas.Select(x => new HistoricoAprendizado(x)).ToList()
+                //Historico = aulas.Select(x => new HistoricoAprendizado(x)).ToList()
             };
         }
 
-        internal void MarcarAulaConcluida(Guid aulaId)
+        public void IniciarAula(Guid aulaId)
         {
             var historico = Historico.FirstOrDefault(x => x.AulaId == aulaId);
             if (historico == null)
-            {
-                throw new DomainException("Aula não encontrada");
-            }
+                Historico.Add(new HistoricoAprendizado(Guid.NewGuid(), aulaId, Id));
+        }
 
-            historico.MarcarConcluido();
+        public void ConcluirAula(Guid aulaId)
+        {
+            var historico = Historico.FirstOrDefault(x => x.AulaId == aulaId);
+            if (historico == null)
+                throw new DomainException("Aula não encontrada");
+
+            historico.Concluir();
             AdicionarEvento(new CursoConcluidoEvent(aulaId));
         }
 
-        internal void MarcarPaga()
+        public void MarcarPaga()
         {
             Status = EnumStatusMatricula.Ativo;
         }
 
-        internal void MarcarConcluida()
+        public void MarcarPagamentoRecusado()
+        {
+            Status = EnumStatusMatricula.PendentePagamento;
+        }
+
+        public void MarcarConcluida()
         {
             Status = EnumStatusMatricula.Concluido;
             AdicionarEvento(new CursoConcluidoEvent(CursoId));

@@ -34,13 +34,25 @@ namespace PlataformaEducacaoOnline.Alunos.Data.Repository
         public async Task<Aluno?> ObterPorIdAsync(Guid id)
         {
             return await _context.Alunos
+                                    .Include(a => a.Matriculas)
+                                        .ThenInclude(a => a.Historico)
                                     .SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<Aluno>> ObterTodosAsync()
         {
             return await _context.Alunos
+                                    .Include(a => a.Matriculas)
+                                        .ThenInclude(a => a.Historico)
                                     .AsNoTracking().ToListAsync();
+        }
+
+        public async Task<Aluno?> ObterPorUserIdAsync(Guid userId)
+        {
+            return await _context.Alunos
+                                    .Include(a => a.Matriculas)
+                                        .ThenInclude(a => a.Historico)
+                                    .SingleOrDefaultAsync(x => x.UserId == userId);
         }
     }
 }

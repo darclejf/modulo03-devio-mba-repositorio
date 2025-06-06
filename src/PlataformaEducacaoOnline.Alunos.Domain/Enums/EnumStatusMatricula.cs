@@ -4,6 +4,6 @@
     {
         PendentePagamento,
         Ativo,
-        Concluido
+        Concluido,
     }
 }

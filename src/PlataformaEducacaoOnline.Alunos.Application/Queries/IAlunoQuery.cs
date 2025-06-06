@@ -4,6 +4,7 @@ namespace PlataformaEducacaoOnline.Alunos.Application.Queries
 {
     public interface IAlunoQuery
     {
-        Task<IEnumerable<AlunoModel>> ObterTodos();
+        Task<IEnumerable<AlunoModel>> ObterTodosAsync();
+        Task<AlunoModel> ObterPorUserIdAsync(Guid userId);
     }
 }

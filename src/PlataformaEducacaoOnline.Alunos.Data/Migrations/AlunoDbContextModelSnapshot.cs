@@ -78,6 +78,27 @@ namespace PlataformaEducacaoOnline.Alunos.Data.Migrations
                     b.ToTable("plataformaead_matriculas", (string)null);
                 });
 
+            modelBuilder.Entity("PlataformaEducacaoOnline.Alunos.Domain.ValueObjects.HistoricoAprendizado", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("AulaId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Concluido")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("MatriculaId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MatriculaId");
+
+                    b.ToTable("plataformaead_matriculas_historico", (string)null);
+                });
+
             modelBuilder.Entity("PlataformaEducacaoOnline.Alunos.Domain.Entities.Matricula", b =>
                 {
                     b.HasOne("PlataformaEducacaoOnline.Alunos.Domain.Entities.Aluno", null)
@@ -87,9 +108,23 @@ namespace PlataformaEducacaoOnline.Alunos.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PlataformaEducacaoOnline.Alunos.Domain.ValueObjects.HistoricoAprendizado", b =>
+                {
+                    b.HasOne("PlataformaEducacaoOnline.Alunos.Domain.Entities.Matricula", null)
+                        .WithMany("Historico")
+                        .HasForeignKey("MatriculaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("PlataformaEducacaoOnline.Alunos.Domain.Entities.Aluno", b =>
                 {
                     b.Navigation("Matriculas");
+                });
+
+            modelBuilder.Entity("PlataformaEducacaoOnline.Alunos.Domain.Entities.Matricula", b =>
+                {
+                    b.Navigation("Historico");
                 });
 #pragma warning restore 612, 618
         }

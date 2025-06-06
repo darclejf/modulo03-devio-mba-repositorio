@@ -38,6 +38,14 @@ namespace PlataformaEducacaoOnline.Conteudos.Data.Repository
                                     .SingleOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<Curso?> ObterPorIdAsyncAsNoTracking(Guid id)
+        {
+            return await _context.Cursos
+                                    .AsNoTracking()
+                                    .Include(x => x.Aulas)
+                                    .SingleOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task<IEnumerable<Curso>> ObterTodosAsync()
         {
             return await _context.Cursos

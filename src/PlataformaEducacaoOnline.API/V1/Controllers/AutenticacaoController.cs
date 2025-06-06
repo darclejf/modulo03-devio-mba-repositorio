@@ -1,11 +1,7 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PlataformaEducacaoOnline.API.Controllers;
 using PlataformaEducacaoOnline.Autenticacao.Interfaces;
 using PlataformaEducacaoOnline.Autenticacao.Models;
-using PlataformaEducacaoOnline.Core.Communications.Mediator;
-using PlataformaEducacaoOnline.Core.Messages.Notifications;
 
 namespace PlataformaEducacaoOnline.API.V1.Controllers
 {
@@ -13,11 +9,11 @@ namespace PlataformaEducacaoOnline.API.V1.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[Controller]")]
-    public class AutenticacaoController : BaseController
+    public class AutenticacaoController : ControllerBase
     {
         private readonly IAutenticacaoServices _services;
 
-        public AutenticacaoController(IAutenticacaoServices services, INotificationHandler<DomainNotification> notifications, IMediatorHandler mediatorHandler) : base(notifications, mediatorHandler)
+        public AutenticacaoController(IAutenticacaoServices services)
         {
             _services = services;
         }
@@ -26,7 +22,7 @@ namespace PlataformaEducacaoOnline.API.V1.Controllers
         public async Task<ActionResult> Login(LoginUserModel loginUser)
         {
             if (!ModelState.IsValid) 
-                return CustomResponse(ModelState);
+                return BadRequest(ModelState);
 
             var result = await _services.LoginAsync(loginUser);
 
@@ -42,7 +38,7 @@ namespace PlataformaEducacaoOnline.API.V1.Controllers
                 //}
 
                 //NotificarErro("Usuário ou Senha incorretos");
-            return CustomResponse(result);
+            return Ok(result);
         }
     }
 }

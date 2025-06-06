@@ -14,8 +14,10 @@ namespace PlataformaEducacaoOnline.Alunos.Data.Mappings
 
             builder.Property(c => c.Id).ValueGeneratedNever();
 
-            //TODO
-            builder.Ignore(c => c.Historico);
+            builder.HasMany(c => c.Historico)
+                    .WithOne()
+                    .HasForeignKey(c => c.MatriculaId)
+                    .OnDelete(DeleteBehavior.Cascade);
 
             builder.Ignore(c => c.ValidationResult);
         }

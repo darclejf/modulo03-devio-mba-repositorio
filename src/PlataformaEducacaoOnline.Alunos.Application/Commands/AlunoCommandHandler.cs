@@ -7,7 +7,9 @@ using PlataformaEducacaoOnline.Core.Messages.IntegrationEvents;
 namespace PlataformaEducacaoOnline.Alunos.Application.Commands
 {
     public class AlunoCommandHandler :
-        IRequestHandler<NovoAlunoCommand, bool>
+        IRequestHandler<NovoAlunoCommand, bool>,
+        IRequestHandler<IniciarMatriculaCommand, bool>,
+        IRequestHandler<IniciarAulaCommand, bool>
     {
         private readonly IAlunoRepository _alunoRepository;
         private readonly IMediatorHandler _mediatorHandler;
@@ -36,6 +38,27 @@ namespace PlataformaEducacaoOnline.Alunos.Application.Commands
             await _alunoRepository.UnitOfWork.CommitAsync();
 
             return true;
+        }
+
+        public async Task<bool> Handle(IniciarMatriculaCommand request, CancellationToken cancellationToken)
+        {
+            var aluno = await _alunoRepository.ObterPorUserIdAsync(request.UserId);
+            if (aluno == null)
+                throw new NotImplementedException();
+            aluno.CriarMatricula(request.CursoId);
+            await _alunoRepository.UnitOfWork.CommitAsync();
+            return true;    
+        }
+
+        public async Task<bool> Handle(IniciarAulaCommand request, CancellationToken cancellationToken)
+        {
+            var aluno = await _alunoRepository.ObterPorUserIdAsync(request.UserId);
+            if (aluno == null)
+                throw new NotImplementedException();
+            aluno.IniciarAula(request.CursoId, request.AulaId);
+            await _alunoRepository.UnitOfWork.CommitAsync();
+            return true;
+
         }
     }
 }

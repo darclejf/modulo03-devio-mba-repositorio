@@ -11,6 +11,6 @@
         public bool Ativo { get; set; }
         public Guid? UserId { get; set; }
         public string? UserName { get; set; }
-        //public IList<Matricula> M atriculas { get; private set; } = [];
+        public IList<MatriculaModel> Matriculas { get; set; } = [];
     }
 }

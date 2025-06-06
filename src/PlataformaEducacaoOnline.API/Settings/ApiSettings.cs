@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using PlataformaEducacaoOnline.API.Identity;
 using PlataformaEducacaoOnline.Core.Communications.Mediator;
+using PlataformaEducacaoOnline.Core.DomainObjects;
 using PlataformaEducacaoOnline.Core.Messages.Notifications;
 using System.Reflection;
 
@@ -57,6 +59,9 @@ namespace PlataformaEducacaoOnline.API.Settings
 
             // Notifications
             builder.Services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
+
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            builder.Services.AddScoped<IUser, AspNetUser>();
 
             return builder;
         }

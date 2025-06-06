@@ -52,18 +52,31 @@ namespace PlataformaEducacaoOnline.Alunos.Domain.Entities
             Ativo = false;
         }
 
-        public void CriarMatricula(Guid cursoId, IList<Guid> aulasIds)
+        public void CriarMatricula(Guid cursoId)
         {
             if (Matriculas.Any(x => x.CursoId == cursoId))
                 throw new DomainException("Aluno já matriculado");
 
-            var matricula = Matricula.Create(Id, cursoId, aulasIds);
+            var matricula = Matricula.Create(Guid.NewGuid(), alunoId: Id, cursoId: cursoId);
             Matriculas.Add(matricula);
         }
 
-        public void MarcarMatriculaPaga(Guid matriculaId)
+        public void MarcarMatriculaPaga(Guid cursoId)
         {
-            throw new NotImplementedException();
+            var matricula = Matriculas.FirstOrDefault(x => x.CursoId == cursoId);
+            if (matricula == null)
+                throw new DomainException("Matrícula não localizada");
+
+            matricula.MarcarPaga();
+        }
+
+        public void MarcarMatriculaRecusada(Guid cursoId)
+        {
+            var matricula = Matriculas.FirstOrDefault(x => x.CursoId == cursoId);
+            if (matricula == null)
+                throw new DomainException("Matrícula não localizada");
+
+            matricula.MarcarPagamentoRecusado();
         }
 
         public void MarcarMatriculaConcluida(Guid matriculaId)
@@ -71,14 +84,12 @@ namespace PlataformaEducacaoOnline.Alunos.Domain.Entities
             throw new NotImplementedException();
         }
 
-        public Matricula ObterMatriculaPorId(Guid id)
+        public Matricula ObterMatriculaPorCursoId(Guid cursoId)
         {
-            throw new NotImplementedException();
-        }
-
-        public void MarcarAulaConcluida(Guid matriculaId, Guid aulaId)
-        {
-            throw new NotImplementedException();
+            var matricula = Matriculas.FirstOrDefault(x => x.CursoId == cursoId);
+            if (matricula == null)
+                throw new DomainException("Matrícula não localizada");
+            return matricula;
         }
 
         public void RemoverMatricula(Guid matriculaId)
@@ -89,6 +100,24 @@ namespace PlataformaEducacaoOnline.Alunos.Domain.Entities
         public void VincularUsuario(Guid userId)
         {
             UserId = userId;
+        }
+
+        public void IniciarAula(Guid cursoId, Guid aulaId)
+        {
+            var matricula = Matriculas.FirstOrDefault(x => x.CursoId == cursoId);
+            if (matricula == null)
+                throw new DomainException("Matrícula não localizada");
+
+            matricula.IniciarAula(aulaId);
+        }
+
+        public void ConcluirAula(Guid cursoId, Guid aulaId)
+        {
+            var matricula = Matriculas.FirstOrDefault(x => x.CursoId == cursoId);
+            if (matricula == null)
+                throw new DomainException("Matrícula não localizada");
+
+            matricula.ConcluirAula(aulaId);
         }
     }
 }

@@ -21,8 +21,12 @@ namespace PlataformaEducacaoOnline.API.Settings
             builder.Services.AddScoped<IAlunoQuery, AlunoQuery>();
 
             builder.Services.AddScoped<IRequestHandler<NovoAlunoCommand, bool>, AlunoCommandHandler>();
+            builder.Services.AddScoped<IRequestHandler<IniciarMatriculaCommand, bool>, AlunoCommandHandler>();
+            builder.Services.AddScoped<IRequestHandler<IniciarAulaCommand, bool>, AlunoCommandHandler>();
 
             builder.Services.AddScoped<INotificationHandler<UsuarioCriadoIntegrationEvent>, AlunoEventHandler>();
+            builder.Services.AddScoped<INotificationHandler<PagamentoRealizadoEvent>, AlunoEventHandler>();
+            builder.Services.AddScoped<INotificationHandler<PagamentoRecusadoEvent>, AlunoEventHandler>();
 
             return builder;
         }

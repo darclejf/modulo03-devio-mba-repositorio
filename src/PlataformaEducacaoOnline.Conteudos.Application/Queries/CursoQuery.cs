@@ -1,4 +1,5 @@
-﻿using PlataformaEducacaoOnline.Conteudos.Application.Queries.Models;
+﻿using PlataformaEducacaoOnline.Conteudos.Application.Queries.Extensions;
+using PlataformaEducacaoOnline.Conteudos.Application.Queries.Models;
 using PlataformaEducacaoOnline.Conteudos.Domain.Repositories;
 
 namespace PlataformaEducacaoOnline.Conteudos.Application.Queries
@@ -12,26 +13,16 @@ namespace PlataformaEducacaoOnline.Conteudos.Application.Queries
             _cursoRepository = cursoRepository;
         }
 
-        public async Task<IEnumerable<CursoModel>> ObterTodos()
+        public async Task<CursoModel?> ObterAsync(Guid id)
+        {
+            var curso = await _cursoRepository.ObterPorIdAsyncAsNoTracking(id);
+            return curso?.ToModel();
+        }
+
+        public async Task<IEnumerable<CursoModel>> ObterTodosAsync()
         {
             var cursos = await _cursoRepository.ObterTodosAsync();
-            return cursos.Select(x => new CursoModel
-            {
-                Id = x.Id,
-                Nome = x.Nome,
-                DataConclusao = x.DataConclusao,
-                DataInicio = x.DataInicio,
-                Descricao = x.Descricao,
-                Aulas = x.Aulas.Select(y => new AulaModel
-                {
-                    Id = y.Id,
-                    Ativo = y.Ativo,
-                    Conteudo = y.Conteudo,
-                    CursoId = y.CursoId,
-                    Ordem = y.Ordem,
-                    Titulo = y.Titulo,
-                }).ToList()
-            });
+            return cursos.Select(x => x.ToModel());
         }
     }
 }

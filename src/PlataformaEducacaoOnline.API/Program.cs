@@ -17,6 +17,7 @@ builder
     .AddApiSettings()
     .AddConteudoSettings()
     .AddAlunoSettings()
+    .AddFinanceiroSettings()
     .AddSwaggerSettings();
 
 var app = builder.Build();

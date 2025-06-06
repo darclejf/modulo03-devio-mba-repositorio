@@ -6,18 +6,20 @@ using PlataformaEducacaoOnline.API.Models;
 using PlataformaEducacaoOnline.Conteudos.Application.Commands;
 using PlataformaEducacaoOnline.Conteudos.Application.Queries;
 using PlataformaEducacaoOnline.Core.Communications.Mediator;
-using PlataformaEducacaoOnline.Core.Constants;
+using PlataformaEducacaoOnline.Core.DomainObjects;
 using PlataformaEducacaoOnline.Core.Messages.Notifications;
-using System.Net;
 
 namespace PlataformaEducacaoOnline.API.V1.Controllers
 {
-    //[Authorize(Roles = "ADMINISTRADOR")]
+    [Authorize(Roles = "ADMINISTRADOR")]
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[Controller]")]
 
-    public class CursosController(INotificationHandler<DomainNotification> notifications, IMediatorHandler mediatorHandler, ICursoQuery cursoQueries) : BaseController(notifications, mediatorHandler)
+    public class CursosController(INotificationHandler<DomainNotification> notifications, 
+                                    IMediatorHandler mediatorHandler, 
+                                    ICursoQuery cursoQueries, 
+                                    IUser user) : BaseController(notifications, mediatorHandler, user)
     {
         private readonly ICursoQuery _cursoQueries = cursoQueries;
 
@@ -46,8 +48,8 @@ namespace PlataformaEducacaoOnline.API.V1.Controllers
         [ProducesResponseType(typeof(ActionResult), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Put(Guid id, NovaAulaRequest request)
         {
-            //if (id != request.CursoId)
-            //    return null;
+            if (id != request.CursoId)
+                return null;
             var command = new AdicionarAulaCursoCommand(id, request.Titulo, request.Titulo, request.Descricao, request.Tipo, request.Url);
             if (command.Valido())
             {
@@ -58,10 +60,13 @@ namespace PlataformaEducacaoOnline.API.V1.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet]        
+        [HttpGet]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(ActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ActionResult), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get()
         {
-            var cursos = await _cursoQueries.ObterTodos();
+            var cursos = await _cursoQueries.ObterTodosAsync();
             return Ok(cursos);
         }
     }

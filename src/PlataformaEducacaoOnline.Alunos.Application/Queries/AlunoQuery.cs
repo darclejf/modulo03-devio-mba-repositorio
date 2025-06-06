@@ -1,4 +1,5 @@
-﻿using PlataformaEducacaoOnline.Alunos.Application.Queries.Model;
+﻿using PlataformaEducacaoOnline.Alunos.Application.Queries.Extensions;
+using PlataformaEducacaoOnline.Alunos.Application.Queries.Model;
 using PlataformaEducacaoOnline.Alunos.Domain.Repositories;
 
 namespace PlataformaEducacaoOnline.Alunos.Application.Queries
@@ -12,20 +13,16 @@ namespace PlataformaEducacaoOnline.Alunos.Application.Queries
             _alunoRepository = alunoRepository;
         }
 
-        public async Task<IEnumerable<AlunoModel>> ObterTodos()
+        public async Task<AlunoModel> ObterPorUserIdAsync(Guid userId)
+        {
+            var aluno = await _alunoRepository.ObterPorUserIdAsync(userId);
+            return aluno.ToModel();
+        }
+
+        public async Task<IEnumerable<AlunoModel>> ObterTodosAsync()
         {
             var alunos = await _alunoRepository.ObterTodosAsync();
-            return alunos.Select(x => new AlunoModel
-            {
-                Id = x.Id,
-                Nome = x.Nome,
-                Ativo = x.Ativo,
-                DataCadastro = x.DataCadastro,
-                DataNascimento = x.DataNascimento,
-                Email = x.Email,
-                Sobrenome = x.Sobrenome,
-                UserId = x.UserId,
-            });
+            return alunos.Select(x => x.ToModel());
         }
     }
 }

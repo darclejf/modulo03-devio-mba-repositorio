@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PlataformaEducacaoOnline.Core.Communications.Mediator;
+using PlataformaEducacaoOnline.Core.DomainObjects;
 using PlataformaEducacaoOnline.Core.Messages.Notifications;
 
 namespace PlataformaEducacaoOnline.API.Controllers
@@ -10,11 +11,13 @@ namespace PlataformaEducacaoOnline.API.Controllers
     {
         protected readonly DomainNotificationHandler _notifications;
         protected readonly IMediatorHandler _mediatorHandler;
+        protected readonly IUser _appUser;
 
-        protected BaseController(INotificationHandler<DomainNotification> notifications, IMediatorHandler mediatorHandler)
+        protected BaseController(INotificationHandler<DomainNotification> notifications, IMediatorHandler mediatorHandler, IUser appUser)
         {
             _notifications = (DomainNotificationHandler)notifications;
             _mediatorHandler = mediatorHandler;
+            _appUser = appUser;
         }
 
         protected bool OperacaoValida()
